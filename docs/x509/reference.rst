@@ -1851,7 +1851,7 @@ X.509 Extensions
 
     .. attribute:: relative_name
 
-        :type: :class:`Name` or None
+        :type: ``frozenset`` of :class:`NameAttribute`, or None
 
         This field describes methods to retrieve the CRL relative to the CRL
         issuer. At most one of ``full_name`` or ``relative_name`` will be
