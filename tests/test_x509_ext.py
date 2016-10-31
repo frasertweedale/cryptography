@@ -3127,7 +3127,7 @@ class TestDistributionPoint(object):
     def test_repr(self):
         dp = x509.DistributionPoint(
             None,
-            x509.Name([
+            frozenset([
                 x509.NameAttribute(NameOID.COMMON_NAME, u"myCN")
             ]),
             frozenset([x509.ReasonFlags.ca_compromise]),
@@ -3143,21 +3143,21 @@ class TestDistributionPoint(object):
         )
         if six.PY3:
             assert repr(dp) == (
-                "<DistributionPoint(full_name=None, relative_name=<Name([<Name"
-                "Attribute(oid=<ObjectIdentifier(oid=2.5.4.3, name=commonName)"
-                ">, value='myCN')>])>, reasons=frozenset({<ReasonFlags.ca_comp"
-                "romise: 'cACompromise'>}), crl_issuer=[<DirectoryName(value=<"
-                "Name([<NameAttribute(oid=<ObjectIdentifier(oid=2.5.4.3, name="
-                "commonName)>, value='Important CA')>])>)>])>"
+                "<DistributionPoint(full_name=None, relative_name=frozenset({<"
+                "NameAttribute(oid=<ObjectIdentifier(oid=2.5.4.3, name=commonN"
+                "ame)>, value='myCN')>}), reasons=frozenset({<ReasonFlags.ca_c"
+                "ompromise: 'cACompromise'>}), crl_issuer=[<DirectoryName(valu"
+                "e=<Name([<NameAttribute(oid=<ObjectIdentifier(oid=2.5.4.3, na"
+                "me=commonName)>, value='Important CA')>])>)>])>"
             )
         else:
             assert repr(dp) == (
-                "<DistributionPoint(full_name=None, relative_name=<Name([<Name"
-                "Attribute(oid=<ObjectIdentifier(oid=2.5.4.3, name=commonName)"
-                ">, value=u'myCN')>])>, reasons=frozenset([<ReasonFlags.ca_com"
-                "promise: 'cACompromise'>]), crl_issuer=[<DirectoryName(value="
-                "<Name([<NameAttribute(oid=<ObjectIdentifier(oid=2.5.4.3, name"
-                "=commonName)>, value=u'Important CA')>])>)>])>"
+                "<DistributionPoint(full_name=None, relative_name=frozenset([<"
+                "NameAttribute(oid=<ObjectIdentifier(oid=2.5.4.3, name=commonN"
+                "ame)>, value=u'myCN')>]), reasons=frozenset([<ReasonFlags.ca_"
+                "compromise: 'cACompromise'>]), crl_issuer=[<DirectoryName(val"
+                "ue=<Name([<NameAttribute(oid=<ObjectIdentifier(oid=2.5.4.3, n"
+                "ame=commonName)>, value=u'Important CA')>])>)>])>"
             )
 
 
@@ -3407,7 +3407,7 @@ class TestCRLDistributionPointsExtension(object):
         assert cdps == x509.CRLDistributionPoints([
             x509.DistributionPoint(
                 full_name=None,
-                relative_name=x509.Name([
+                relative_name=frozenset([
                     x509.NameAttribute(
                         NameOID.COMMON_NAME,
                         u"indirect CRL for indirectCRL CA3"

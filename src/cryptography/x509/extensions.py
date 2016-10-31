@@ -20,7 +20,7 @@ from cryptography.hazmat.primitives import constant_time, serialization
 from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurvePublicKey
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 from cryptography.x509.general_name import GeneralName, IPAddress, OtherName
-from cryptography.x509.name import Name
+from cryptography.x509.name import NameAttribute
 from cryptography.x509.oid import (
     CRLEntryExtensionOID, ExtensionOID, ObjectIdentifier
 )
@@ -437,8 +437,15 @@ class DistributionPoint(object):
                     "full_name must be a list of GeneralName objects"
                 )
 
-        if relative_name and not isinstance(relative_name, Name):
-            raise TypeError("relative_name must be a Name")
+        if (
+            relative_name and not (
+                isinstance(relative_name, frozenset) and
+                all(isinstance(x, NameAttribute) for x in relative_name)
+            )
+        ):
+            raise TypeError(
+                "relative_name must be a frozenset of NameAttribute objects"
+            )
 
         if crl_issuer:
             crl_issuer = list(crl_issuer)
